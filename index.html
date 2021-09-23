@@ -414,7 +414,7 @@
                                     <div class="form-group">
                                         <label for="fullName">Enter Full Name/Company Name* : </label>
                                         <input type="text" class="form-control" id="fullName" name="Name"
-                                            placeholder="Enter the full name" required>
+                                            placeholder="Enter the full name" required >
                                     </div>
 
                                     <div class="form-group">
@@ -436,8 +436,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-outline-dark"
-                                            style="border: 1px solid black;">Submit</button>
-                                            <!-- onsubmit="var nameDetail = document.getElementById('fullName').value; document.getElementById('subject').value = 'Hiring Mail Received from - '+nameDetail;" -->
+                                            style="border: 1px solid black;" onmouseover="var companyName = document.getElementById('fullName').value; document.getElementsByName('_subject')[0].value = 'Hiring Mail Received from - ' + companyName;">Submit</button>
+                                            <!-- onsubmit="var companyName = document.getElementById('fullName').value; document.getElementsByName('_subject')[0].value = 'Hiring Mail Received from - ' + companyName;" -->
                                         <button type="submit" class="btn btn-outline-dark"
                                             style="border: 1px solid black;" data-dismiss="modal">Close</button>
                                     </div>
