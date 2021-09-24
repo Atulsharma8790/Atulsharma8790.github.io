@@ -90,10 +90,14 @@
 
             </div>
         </div>
-        <div class="about container" id="aboutSkills">
+        <div class="about container carousel slide" id="aboutSkills">
 
-            <div class="row">
-                <div class="col-lg-6 col-xs-6 text center" style="text-align: center;">
+            <ol class="carousel-indicators">
+                <li data-target="#aboutSkills" data-slide-to="0" class="active" style="background-color: black;"></li>
+                <li data-target="#aboutSkills" data-slide-to="1" style="background-color: black;"></li>
+              </ol>
+            <div id="skillRows" class="row carousel-inner">
+                <div id="skillRow" class="col-lg-6 col-xs-6 text center carousel-item active" style="text-align: center;">
 
                     <div class="skills-bar">
                         <p>Selenium</p>
@@ -128,7 +132,7 @@
 
                     </div>
                 </div>
-                <div class="col-lg-6 col-xs-6 text center" style="text-align: center;">
+                <div id="skillRow" class="col-lg-6 col-xs-6 text center carousel-item" style="text-align: center;">
 
                     <div class="skills-bar">
                         <p>RestAssured API Automation</p>
@@ -164,6 +168,14 @@
                     </div>
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#aboutSkills" role="button" data-slide="prev">
+                <span class="fa fa-angle-left" aria-hidden="true" style="color: black; font-size: 40px; padding-right: 60px; margin-top: 60px;"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#aboutSkills" role="button" data-slide="next">
+                <span class="fa fa-angle-right" aria-hidden="true" style="color: black; font-size: 40px; padding-left: 60px; margin-top: 60px;"></span>
+                <span class="sr-only">Next</span>
+              </a>
         </div>
         <div class="social-icons">
             <ul>
@@ -488,6 +500,31 @@
     <script src="smooth-scroll.js"></script>
     <script>
         var scroll = new SmoothScroll('a[href*="#"]');
+    </script>
+    <script>
+        var winWidth = $(window).width();
+        console.log("Width = " + winWidth)
+        function sidebarWidth(){
+        if(winWidth>968){
+            $('#aboutSkills').removeClass('carousel');
+            $('#aboutSkills').removeClass('slide');
+            $('#skillRows').removeClass('carousel-inner');
+            $('#skillRows #skillRow').removeClass('carousel-item');
+            $('#skillRow').removeClass('active');            
+        } else {
+            $('#aboutSkills').addClass('carousel');
+            $('#aboutSkills').addClass('slide');
+            $('#skillRows').addClass('carousel-inner');
+            $('#skillRow').addClass('carousel-item');
+        };
+    };
+
+sidebarWidth();
+
+$(document).resize(function(){
+  sidebarWidth();
+});
+$(window).resize(function(){location.reload();});
     </script>
 
 
