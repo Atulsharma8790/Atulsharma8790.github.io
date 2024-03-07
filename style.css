@@ -306,7 +306,12 @@ body {
 .skills-box:hover p {
   color: #fff;
 }
-
+.skills-box:hover span {
+  color: #fff;
+}
+.skills-box:hover .fa {
+  color: #fff;
+}
 .skills-bar {
     padding-left: 20px;
     margin: 0px 20px;
