@@ -44,7 +44,7 @@ export const hero = {
   stats: [
     { value: '13+', label: 'Years Experience' },
     { value: '50+', label: 'Engineers Mentored' },
-    { value: '5+', label: 'Enterprise Clients' },
+    { value: '16+', label: 'AI Tools Built' },
     { value: '100K+', label: 'Test Cases Automated' },
   ],
   cta: [

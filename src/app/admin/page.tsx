@@ -5,7 +5,27 @@ import {
   CheckCircle2, XCircle, MessageSquare, BarChart3, RefreshCw,
   Eye, EyeOff, BookOpen, Plus, Trash2, PenLine, LayoutGrid,
   BrainCircuit, Sparkles, Search, ChevronDown, ChevronUp, GripVertical,
+  Rocket, Github, ExternalLink,
 } from 'lucide-react'
+
+const LIVE_TOOLS = [
+  { name: 'AI Test Case Generator',            dir: 'qa-test-case-generator',          demo: 'https://qa-test-case-generator-nine.vercel.app',         github: 'https://github.com/atulsharma8790/qa-test-case-generator' },
+  { name: 'TalentLens',                        dir: 'talent-lens',                     demo: 'https://talent-lens-murex.vercel.app',                   github: 'https://github.com/atulsharma8790/talent-lens' },
+  { name: 'AI SDLC Orchestrator',              dir: 'ai-sdlc-orchestrator',            demo: 'https://ai-sdlc-orchestrator.vercel.app',                github: 'https://github.com/atulsharma8790/ai-sdlc-orchestrator' },
+  { name: 'SDLC Metrics Generator',            dir: 'sdlc-metrics-generator',          demo: 'https://sdlc-metrics-generator.vercel.app',              github: 'https://github.com/atulsharma8790/sdlc-metrics-generator' },
+  { name: 'Incident Post-Mortem Generator',    dir: 'incident-postmortem-generator',   demo: 'https://incident-postmortem-generator-two.vercel.app',   github: 'https://github.com/atulsharma8790/incident-postmortem-generator' },
+  { name: 'Sprint Retrospective Analyzer',     dir: 'sprint-retro-analyzer',           demo: 'https://sprint-retro-analyzer.vercel.app',               github: 'https://github.com/atulsharma8790/sprint-retro-analyzer' },
+  { name: 'PRD Generator',                     dir: 'prd-generator',                   demo: 'https://prd-generator-gold.vercel.app',                  github: 'https://github.com/atulsharma8790/prd-generator' },
+  { name: 'AI Performance Test Planner',       dir: 'perf-test-planner',               demo: 'https://perf-test-planner.vercel.app',                   github: 'https://github.com/atulsharma8790/perf-test-planner' },
+  { name: 'Test Automation Skeleton Generator',dir: 'test-automation-skeleton',        demo: 'https://test-automation-skeleton.vercel.app',            github: 'https://github.com/atulsharma8790/test-automation-skeleton' },
+  { name: 'QuizMenti',                         dir: 'quiz-menti',                      demo: 'https://quiz-menti.vercel.app',                          github: 'https://github.com/atulsharma8790/quiz-menti' },
+  { name: 'AuctionRoom',                       dir: 'auction-room',                    demo: 'https://auction-room-six.vercel.app',                    github: 'https://github.com/atulsharma8790/auction-room' },
+  { name: 'Prompt Lab — Generator & Evaluator',dir: 'prompt-generator-evaluator',      demo: 'https://prompt-generator-evaluator.vercel.app',          github: 'https://github.com/atulsharma8790/prompt-generator-evaluator' },
+  { name: 'QA Intelligence MCP Server',        dir: 'qa-mcp-server',                   demo: 'https://qa-mcp-server-theta.vercel.app',                 github: 'https://github.com/atulsharma8790/qa-mcp-server' },
+  { name: 'QA Autopilot (FailSight)',           dir: 'qa-autopilot',                    demo: 'https://qa-autopilot.vercel.app',                        github: 'https://github.com/atulsharma8790/qa-autopilot' },
+  { name: 'ReleaseGuard (ShipMind)',            dir: 'release-guard',                   demo: 'https://release-guard-blue.vercel.app',                  github: 'https://github.com/Atulsharma8790/release-guard' },
+  { name: 'Bug Hunter Agent (GhostQA)',         dir: 'bug-hunter-agent',                demo: 'https://bug-hunter-agent.vercel.app',                    github: 'https://github.com/Atulsharma8790/bug-hunter-agent' },
+]
 
 interface Question {
   id: string
@@ -59,7 +79,7 @@ export default function AdminPage() {
   const [showToken, setShowToken] = useState(false)
   const [toast, setToast] = useState('')
 
-  const [tab, setTab] = useState<'knowledge' | 'projects' | 'analytics'>('knowledge')
+  const [tab, setTab] = useState<'knowledge' | 'projects' | 'analytics' | 'deployments'>('knowledge')
 
   // Questions
   const [questions, setQuestions] = useState<Question[]>([])
@@ -317,7 +337,7 @@ export default function AdminPage() {
               onClick={() => {
                 setAuthed(false)
                 setToken('')
-                window.location.href = 'http://localhost:3001'
+                window.location.href = '/'
               }}
               className="px-3 py-1.5 rounded-lg text-[#7B8FA8] hover:text-white text-sm border border-white/[0.07] hover:border-white/[0.15] transition-all"
             >
@@ -331,9 +351,10 @@ export default function AdminPage() {
         {/* Tabs */}
         <div className="flex gap-2 mb-8 flex-wrap">
           {[
-            { id: 'knowledge' as const, label: 'Knowledge Center', icon: <BrainCircuit size={15} />, badge: pending.length, badgeColor: 'bg-amber-500/20 text-amber-400' },
-            { id: 'projects' as const,  label: 'Project Visibility', icon: <LayoutGrid size={15} />, badge: hiddenCount, badgeColor: 'bg-red-500/20 text-red-400' },
-            { id: 'analytics' as const, label: 'Analytics', icon: <BarChart3 size={15} />, badge: 0, badgeColor: '' },
+            { id: 'knowledge'   as const, label: 'Knowledge Center',  icon: <BrainCircuit size={15} />, badge: pending.length,         badgeColor: 'bg-amber-500/20 text-amber-400' },
+            { id: 'projects'    as const, label: 'Project Visibility', icon: <LayoutGrid size={15} />,  badge: hiddenCount,             badgeColor: 'bg-red-500/20 text-red-400' },
+            { id: 'deployments' as const, label: 'Live Deployments',   icon: <Rocket size={15} />,       badge: LIVE_TOOLS.length,       badgeColor: 'bg-emerald-500/20 text-emerald-400' },
+            { id: 'analytics'   as const, label: 'Analytics',          icon: <BarChart3 size={15} />,    badge: 0,                       badgeColor: '' },
           ].map(({ id, label, icon, badge, badgeColor }) => (
             <button key={id} onClick={() => setTab(id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${tab === id ? 'bg-[#6366F1] text-white' : 'text-[#7B8FA8] hover:text-white bg-[#12121E] border border-white/[0.07]'}`}>
@@ -645,6 +666,70 @@ export default function AdminPage() {
               ))}
             </div>
             <p className="text-[#334155] text-xs mt-4 text-center">Visibility changes are instant · drag to reorder then hit &ldquo;Save Order&rdquo;</p>
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════
+            LIVE DEPLOYMENTS
+        ══════════════════════════════════════════════════════ */}
+        {tab === 'deployments' && (
+          <div>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="rounded-2xl bg-[#12121E] border border-white/[0.07] p-5 text-center">
+                <div className="text-3xl font-bold text-white">{LIVE_TOOLS.length}</div>
+                <div className="text-[#7B8FA8] text-sm mt-1">Total Tools</div>
+              </div>
+              <div className="rounded-2xl bg-[#12121E] border border-emerald-500/20 p-5 text-center">
+                <div className="text-3xl font-bold text-emerald-400">{LIVE_TOOLS.length}</div>
+                <div className="text-[#7B8FA8] text-sm mt-1">Live on Vercel</div>
+              </div>
+              <div className="rounded-2xl bg-[#12121E] border border-[#6366F1]/20 p-5 text-center">
+                <div className="text-3xl font-bold text-[#818CF8]">{LIVE_TOOLS.length}</div>
+                <div className="text-[#7B8FA8] text-sm mt-1">On GitHub</div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-[#12121E] border border-white/[0.07] overflow-hidden mb-4">
+              <div className="px-5 py-3 border-b border-white/[0.06] flex items-center gap-2">
+                <Rocket size={14} className="text-emerald-400" />
+                <p className="text-white font-semibold text-sm">All Live Tools</p>
+                <span className="ml-auto text-[#6B7F96] text-xs">To redeploy: cd ~/Documents/CODING_ZONE/_deploy-scripts && node deploy.js &lt;dir-name&gt;</span>
+              </div>
+              <div className="divide-y divide-white/[0.04]">
+                {LIVE_TOOLS.map((tool, i) => (
+                  <div key={tool.dir} className="px-5 py-3.5 flex items-center gap-3 hover:bg-white/[0.02] transition-colors">
+                    <span className="text-[#475569] text-xs w-5 text-right flex-shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-sm font-medium truncate">{tool.name}</p>
+                      <p className="text-[#475569] text-xs font-mono">{tool.dir}</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
+                      <a href={tool.demo} target="_blank" rel="noreferrer"
+                        className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+                        <ExternalLink size={11} /> Demo
+                      </a>
+                      <a href={tool.github} target="_blank" rel="noreferrer"
+                        className="flex items-center gap-1 text-xs text-[#7B8FA8] hover:text-white transition-colors">
+                        <Github size={11} /> GitHub
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-[#0A0A0F] border border-white/[0.07] p-5">
+              <p className="text-[#7B8FA8] text-xs font-medium mb-2 uppercase tracking-widest">Deploy Command Reference</p>
+              <div className="space-y-1.5 font-mono text-xs">
+                <p className="text-[#94A3B8]"><span className="text-[#6B7F96]"># Deploy all projects</span></p>
+                <p className="text-emerald-400 bg-[#12121E] rounded-lg px-3 py-1.5 select-all">node ~/Documents/CODING_ZONE/_deploy-scripts/deploy.js</p>
+                <p className="text-[#94A3B8] mt-2"><span className="text-[#6B7F96]"># Deploy one project</span></p>
+                <p className="text-emerald-400 bg-[#12121E] rounded-lg px-3 py-1.5 select-all">node ~/Documents/CODING_ZONE/_deploy-scripts/deploy.js bug-hunter-agent</p>
+                <p className="text-[#94A3B8] mt-2"><span className="text-[#6B7F96]"># Deploy portfolio</span></p>
+                <p className="text-emerald-400 bg-[#12121E] rounded-lg px-3 py-1.5 select-all">node ~/Documents/CODING_ZONE/_deploy-scripts/deploy.js portfolio</p>
+              </div>
+            </div>
           </div>
         )}
 
