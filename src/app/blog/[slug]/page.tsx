@@ -192,7 +192,7 @@ export default function ArticlePage({ params }: Props) {
             <p className="text-xs" style={{ color: 'var(--muted)' }}>Share it with someone who might benefit.</p>
           </div>
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://atul-sharma-qa.vercel.app/blog/${article.slug}`)}`}
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://atulsharma.vercel.app/blog/${article.slug}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-200"
