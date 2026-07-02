@@ -332,7 +332,7 @@ export function ProjectsSection() {
                     )}
                     {project.demo ? (
                       <a
-                        href={project.demo}
+                        href={project.demo.startsWith('http://localhost') ? project.demo : `${project.demo}?ref=portfolio`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-xs font-semibold transition-colors ml-auto px-3 py-1.5 rounded-lg"
