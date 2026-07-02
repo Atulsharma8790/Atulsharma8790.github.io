@@ -4,7 +4,7 @@ export const siteMeta = {
   title: 'Atul Sharma | QA Automation Architect & Quality Engineering Leader',
   description:
     'Atul Sharma is a QA Automation Architect and Quality Engineering Leader with 13+ years building enterprise automation platforms, AI-driven testing systems, and quality strategies for global product organisations.',
-  url: 'https://atulsharma8790.github.io',
+  url: 'https://atul-sharma-qa.vercel.app',
   resumeUrl: '/Atul-Sharma.pdf',
   image: '/og-image.png',
   twitterHandle: '@atulsharma8790',
@@ -1141,7 +1141,7 @@ export const contact = {
   phone: '+91-9953893369',
   linkedin: 'https://linkedin.com/in/a2l',
   github: 'https://github.com/atulsharma8790',
-  website: 'https://atulsharma8790.github.io',
+  website: 'https://atul-sharma-qa.vercel.app',
   calendly: 'https://calendly.com/a2l/30min',
   skype: 'atulsharma4710',
   availability: 'Open to senior QA Architect, Quality Engineering Leadership, and Technical Consulting opportunities.',
