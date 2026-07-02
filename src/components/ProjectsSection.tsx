@@ -20,7 +20,7 @@ const FEATURES_LIMIT    = 3    // bullets before "Show more"
 export function ProjectsSection() {
   const [tab, setTab]       = useState<Tab>('case-studies')
   const [expanded, setExpanded] = useState<string | null>('enterprise-automation-platform')
-  const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set())
+  const [hiddenIds, setHiddenIds] = useState<Set<string> | null>(null)
   const [customOrder, setCustomOrder] = useState<string[]>([])
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
 
@@ -31,10 +31,10 @@ export function ProjectsSection() {
     fetch('/api/projects/visibility')
       .then(r => r.json())
       .then(d => {
-        if (Array.isArray(d.hidden)) setHiddenIds(new Set(d.hidden))
+        setHiddenIds(new Set(Array.isArray(d.hidden) ? d.hidden : []))
         if (Array.isArray(d.order) && d.order.length > 0) setCustomOrder(d.order)
       })
-      .catch(() => {})
+      .catch(() => { setHiddenIds(new Set()) })
   }, [])
 
   const orderedProjects = customOrder.length > 0
@@ -42,7 +42,9 @@ export function ProjectsSection() {
        ...openSourceProjects.filter(p => !customOrder.includes(p.id))]
     : openSourceProjects
 
-  const visibleOpenSource = orderedProjects.filter(p => !hiddenIds.has(p.id))
+  const visibleOpenSource = hiddenIds === null
+    ? []
+    : orderedProjects.filter(p => !hiddenIds.has(p.id))
 
   return (
     <section id="projects" className="relative py-24 lg:py-32">
@@ -63,7 +65,7 @@ export function ProjectsSection() {
             Real Problems. Engineered Solutions.
           </h2>
           <p className="text-[#7B8FA8] text-lg max-w-2xl">
-            Enterprise case studies from real engagements, alongside open-source tools built to solve actual QA problems.
+            Enterprise case studies from real engagements, alongside AI-powered tools built from scratch to solve real QA problems.
           </p>
         </motion.div>
 
@@ -71,7 +73,7 @@ export function ProjectsSection() {
         <div className="flex gap-2 mb-10 p-1 rounded-xl bg-[#12121E] border border-white/[0.07] w-fit">
           {[
             { id: 'case-studies' as Tab, label: 'Enterprise Case Studies' },
-            { id: 'open-source' as Tab, label: `Open Source Tools (${visibleOpenSource.length})` },
+            { id: 'open-source' as Tab, label: hiddenIds === null ? 'AI Tools Built' : `AI Tools Built (${visibleOpenSource.length})` },
           ].map(t => (
             <button
               key={t.id}

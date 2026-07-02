@@ -3,6 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { buildSystemPrompt } from '../../../lib/knowledge'
 import { saveUnansweredQuestion, trackAnalytics, categoriseQuestion } from '../../../lib/chatStore'
 import { getAllVisibilityAsync } from '../../../lib/project-visibility'
+import { openSourceProjects } from '../../../data/content'
 import { v4 as uuidv4 } from 'uuid'
 
 const MISSING_INFO_PHRASE = "i don't currently have enough verified information"
@@ -32,7 +33,8 @@ export async function POST(req: NextRequest) {
 
     const client = new Anthropic({ apiKey })
     const vis = await getAllVisibilityAsync()
-    const visibleCount = Object.values(vis).filter(v => v !== false).length || undefined
+    const hiddenCount = Object.values(vis).filter(v => v === false).length
+    const visibleCount = openSourceProjects.length - hiddenCount
     const systemPrompt = buildSystemPrompt(visibleCount)
 
     const anthropicMessages = history
