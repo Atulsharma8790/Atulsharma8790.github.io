@@ -1,0 +1,59 @@
+{
+  "totalQuestions": 11,
+  "topQuestions": [
+    {
+      "question": "what projects has Atul done",
+      "count": 2
+    },
+    {
+      "question": "tell me about the projects Atul have done",
+      "count": 1
+    },
+    {
+      "question": "Tools created by Atul?",
+      "count": 1
+    },
+    {
+      "question": "what tools has Atul built",
+      "count": 1
+    },
+    {
+      "question": "tell me about his experience",
+      "count": 1
+    },
+    {
+      "question": "skills?",
+      "count": 1
+    },
+    {
+      "question": "tools?",
+      "count": 1
+    },
+    {
+      "question": "skills you have?",
+      "count": 1
+    },
+    {
+      "question": "technical skills",
+      "count": 1
+    },
+    {
+      "question": "tools created?",
+      "count": 1
+    }
+  ],
+  "categories": [
+    {
+      "category": "Projects",
+      "count": 3
+    },
+    {
+      "category": "Skills & Tech",
+      "count": 7
+    },
+    {
+      "category": "Experience",
+      "count": 1
+    }
+  ]
+}

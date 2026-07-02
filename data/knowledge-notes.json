@@ -1,0 +1,34 @@
+{
+  "notes": [
+    {
+      "id": "seed-1",
+      "topic": "Salary / Compensation",
+      "answer": "Atul does not share salary expectations publicly via the chatbot. For compensation discussions, please reach out directly at atulsharma8790@gmail.com or schedule a call at https://calendly.com/a2l/30min",
+      "addedAt": "2026-06-25T00:00:00.000Z"
+    },
+    {
+      "id": "seed-2",
+      "topic": "Notice Period / Availability",
+      "answer": "Atul is currently open to opportunities and available for conversations. For specific availability timelines, please connect directly via email at atulsharma8790@gmail.com",
+      "addedAt": "2026-06-25T00:00:00.000Z"
+    },
+    {
+      "id": "seed-3",
+      "topic": "Relocation",
+      "answer": "Atul is based in Gurugram, India and is open to remote, hybrid, or relocation opportunities depending on the role. Please reach out directly to discuss specifics.",
+      "addedAt": "2026-06-25T00:00:00.000Z"
+    },
+    {
+      "id": "seed-4",
+      "topic": "AI Tools Built / Portfolio Projects",
+      "answer": "Atul has built 9 AI-powered tools as part of his personal brand portfolio: (1) QA Test Case Generator — BDD test cases from user stories; (2) QA Candidate Analyzer — 360° resume evaluation for QA roles; (3) AI SDLC Orchestrator — full SDLC plan generation phase by phase; (4) SDLC Metrics Generator — sprint data to exec-ready quality metrics; (5) Incident Post-Mortem Generator — blameless RCA with action items; (6) Sprint Retro Analyzer — retro feedback to themes and health scores; (7) PRD Generator — product idea to full PRD document; (8) AI Performance Test Planner — app description to k6 + JMeter test plan; (9) Test Automation Skeleton Generator — stack description to production-ready framework scaffold with GitHub/GitLab push. Two more are in progress: QuizMenti (Mentimeter-style quiz platform) and AuctionDraft (IPL-style team auction platform).",
+      "addedAt": "2026-06-25T00:00:00.000Z"
+    },
+    {
+      "id": "seed-5",
+      "topic": "Personal Interests / Hobbies",
+      "answer": "Outside of work, Atul enjoys cricket, technology podcasts, exploring AI research papers, and mentoring upcoming QA engineers. He is passionate about building products that solve real engineering problems.",
+      "addedAt": "2026-06-25T00:00:00.000Z"
+    }
+  ]
+}
