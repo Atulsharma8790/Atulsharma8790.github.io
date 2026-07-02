@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { openSourceProjects } from '../../../../data/content'
 import {
-  getAllVisibility, toggleProjectVisibility, setProjectVisibility,
-  getProjectOrder, setProjectOrder, applyOrder,
+  getAllVisibilityAsync,
+  toggleProjectVisibilityAsync,
+  setProjectVisibilityAsync,
+  getProjectOrderAsync,
+  setProjectOrderAsync,
+  applyOrder,
 } from '../../../../lib/project-visibility'
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? 'atul-admin-secret'
@@ -15,17 +19,27 @@ function isAuthorised(req: NextRequest): boolean {
 export async function GET(req: NextRequest) {
   if (!isAuthorised(req)) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const vis     = getAllVisibility()
-  const order   = getProjectOrder()
-  const allIds  = openSourceProjects.map(p => p.id)
+  const vis    = await getAllVisibilityAsync()
+  const order  = await getProjectOrderAsync()
+  const allIds = openSourceProjects.map(p => p.id)
   const ordered = applyOrder(allIds, order)
 
   const projects = ordered.map(id => {
     const p = openSourceProjects.find(x => x.id === id)!
-    return { id: p.id, title: p.title, tagline: p.tagline, category: p.category, status: p.status, color: p.color, visible: vis[p.id] !== false }
+    return {
+      id: p.id,
+      title: p.title,
+      tagline: p.tagline,
+      category: p.category,
+      status: p.status,
+      color: p.color,
+      visible: vis[p.id] !== false,
+    }
   })
 
-  return NextResponse.json({ projects })
+  return NextResponse.json({ projects }, {
+    headers: { 'Cache-Control': 'no-store' },
+  })
 }
 
 export async function POST(req: NextRequest) {
@@ -34,14 +48,12 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}))
   const { id, action, visible, order } = body
 
-  // Reorder action
   if (action === 'reorder') {
     if (!Array.isArray(order)) return NextResponse.json({ error: 'order must be an array' }, { status: 400 })
-    setProjectOrder(order)
+    await setProjectOrderAsync(order)
     return NextResponse.json({ ok: true, order })
   }
 
-  // Visibility toggle/set
   if (!id) return NextResponse.json({ error: 'Missing project id' }, { status: 400 })
   if (!openSourceProjects.some(p => p.id === id)) {
     return NextResponse.json({ error: `No project found with id "${id}"` }, { status: 404 })
@@ -49,10 +61,10 @@ export async function POST(req: NextRequest) {
 
   let newVisible: boolean
   if (action === 'set' && typeof visible === 'boolean') {
-    setProjectVisibility(id, visible)
+    await setProjectVisibilityAsync(id, visible)
     newVisible = visible
   } else {
-    newVisible = toggleProjectVisibility(id)
+    newVisible = await toggleProjectVisibilityAsync(id)
   }
 
   return NextResponse.json({ ok: true, id, visible: newVisible })

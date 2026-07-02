@@ -41,7 +41,7 @@ function loadKnowledgeNotes(): KnowledgeNote[] {
 
 // ── Context builder ────────────────────────────────────────────────────────────
 
-export function buildKnowledgeContext(): string {
+export function buildKnowledgeContext(visibleToolCount: number = openSourceProjects.length): string {
   const expText = experiences.map(e =>
     `Company: ${e.company}
 Role: ${e.role}
@@ -147,7 +147,7 @@ ${skillText}
 ### Enterprise Projects & Case Studies
 ${projectText}
 
-### AI-Powered Tools (Personal Portfolio — 16 live, all deployed)
+### AI-Powered Tools (Personal Portfolio — ${visibleToolCount} live, all deployed)
 ${aiToolsText}
 
 ### AI & Innovation Work
@@ -190,8 +190,8 @@ ${notesText}
 `
 }
 
-export function buildSystemPrompt(): string {
-  const knowledge = buildKnowledgeContext()
+export function buildSystemPrompt(visibleToolCount?: number): string {
+  const knowledge = buildKnowledgeContext(visibleToolCount)
 
   return `You are "Digital Atul" — the AI assistant on Atul Sharma's personal brand website. You help recruiters, hiring managers, clients, and fellow engineers learn about Atul quickly and naturally — like a knowledgeable colleague, not a Wikipedia article.
 

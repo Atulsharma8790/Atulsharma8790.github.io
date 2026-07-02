@@ -1,3 +1,10 @@
+/**
+ * Project visibility & order — persisted in Vercel KV.
+ * Falls back to in-memory globals when KV env vars aren't set (local dev).
+ */
+
+// ── In-memory fallback (local dev / missing KV env) ─────────────────────────
+
 declare global {
   // eslint-disable-next-line no-var
   var __projectVisibility: Map<string, boolean> | undefined
@@ -8,50 +15,101 @@ declare global {
 if (!global.__projectVisibility) global.__projectVisibility = new Map<string, boolean>()
 if (!global.__projectOrder)      global.__projectOrder      = []
 
-const visStore  = global.__projectVisibility
-const ordStore  = global.__projectOrder
+const memVis   = global.__projectVisibility
+const memOrder = global.__projectOrder
 
-// ── Visibility ───────────────────────────────────────────────
+// ── KV helpers ───────────────────────────────────────────────────────────────
 
-export function isProjectVisible(id: string): boolean {
-  return visStore.get(id) !== false
+const KV_VIS_KEY   = 'portfolio:project_visibility'
+const KV_ORDER_KEY = 'portfolio:project_order'
+
+function hasKv(): boolean {
+  return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
 }
 
-export function toggleProjectVisibility(id: string): boolean {
-  const next = !( visStore.get(id) !== false )
-  visStore.set(id, next)
-  return next
+async function kvGet<T>(key: string): Promise<T | null> {
+  if (!hasKv()) return null
+  try {
+    const { kv } = await import('@vercel/kv')
+    return await kv.get<T>(key)
+  } catch {
+    return null
+  }
 }
 
-export function setProjectVisibility(id: string, visible: boolean): void {
-  visStore.set(id, visible)
+async function kvSet(key: string, value: unknown): Promise<void> {
+  if (!hasKv()) return
+  try {
+    const { kv } = await import('@vercel/kv')
+    await kv.set(key, value)
+  } catch {
+    /* ignore */
+  }
 }
 
-export function getAllVisibility(): Record<string, boolean> {
+// ── Visibility ───────────────────────────────────────────────────────────────
+
+/** Returns visibility map — true = visible (default when not set). */
+export async function getAllVisibilityAsync(): Promise<Record<string, boolean>> {
+  const stored = await kvGet<Record<string, boolean>>(KV_VIS_KEY)
+  if (stored) return stored
+  // fallback: in-memory
   const result: Record<string, boolean> = {}
-  visStore.forEach((v, id) => { result[id] = v })
+  memVis.forEach((v, id) => { result[id] = v })
   return result
 }
 
-// ── Order ────────────────────────────────────────────────────
-
-/** Returns the custom order array (only set IDs). May be partial. */
-export function getProjectOrder(): string[] {
-  return [...ordStore]
+export async function setProjectVisibilityAsync(id: string, visible: boolean): Promise<void> {
+  const current = await getAllVisibilityAsync()
+  current[id] = visible
+  await kvSet(KV_VIS_KEY, current)
+  // keep in-memory in sync for same-instance reads
+  memVis.set(id, visible)
 }
 
-/** Replaces the full custom order */
-export function setProjectOrder(ids: string[]): void {
-  ordStore.length = 0
-  ordStore.push(...ids)
+export async function toggleProjectVisibilityAsync(id: string): Promise<boolean> {
+  const current = await getAllVisibilityAsync()
+  const next = !(current[id] !== false)
+  current[id] = next
+  await kvSet(KV_VIS_KEY, current)
+  memVis.set(id, next)
+  return next
 }
 
-/**
- * Merge a custom order with the full project list.
- * IDs in customOrder come first; remaining IDs follow in their original sequence.
- */
+// ── Order ────────────────────────────────────────────────────────────────────
+
+export async function getProjectOrderAsync(): Promise<string[]> {
+  const stored = await kvGet<string[]>(KV_ORDER_KEY)
+  if (stored && stored.length > 0) return stored
+  return [...memOrder]
+}
+
+export async function setProjectOrderAsync(ids: string[]): Promise<void> {
+  await kvSet(KV_ORDER_KEY, ids)
+  memOrder.length = 0
+  memOrder.push(...ids)
+}
+
+// ── Util ─────────────────────────────────────────────────────────────────────
+
 export function applyOrder(allIds: string[], customOrder: string[]): string[] {
   if (customOrder.length === 0) return allIds
   const rest = allIds.filter(id => !customOrder.includes(id))
   return [...customOrder.filter(id => allIds.includes(id)), ...rest]
+}
+
+// ── Sync shims (for backward compat — these use in-memory only) ──────────────
+
+export function isProjectVisible(id: string): boolean {
+  return memVis.get(id) !== false
+}
+
+export function getAllVisibility(): Record<string, boolean> {
+  const result: Record<string, boolean> = {}
+  memVis.forEach((v, id) => { result[id] = v })
+  return result
+}
+
+export function getProjectOrder(): string[] {
+  return [...memOrder]
 }

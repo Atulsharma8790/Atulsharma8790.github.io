@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server'
-import { getAllVisibility, getProjectOrder } from '../../../../lib/project-visibility'
+import { getAllVisibilityAsync, getProjectOrderAsync } from '../../../../lib/project-visibility'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const vis    = getAllVisibility()
+  const vis    = await getAllVisibilityAsync()
   const hidden = Object.entries(vis).filter(([, v]) => v === false).map(([id]) => id)
-  const order  = getProjectOrder()
-  return NextResponse.json({ hidden, order }, { headers: { 'Cache-Control': 'no-store' } })
+  const order  = await getProjectOrderAsync()
+  return NextResponse.json({ hidden, order }, {
+    headers: { 'Cache-Control': 'no-store' },
+  })
 }
