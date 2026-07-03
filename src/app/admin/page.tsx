@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   CheckCircle2, XCircle, MessageSquare, BarChart3, RefreshCw,
   Eye, EyeOff, BookOpen, Plus, Trash2, PenLine, LayoutGrid,
-  BrainCircuit, Sparkles, Search, ChevronDown, ChevronUp, GripVertical,
+  BrainCircuit, Sparkles, Search, ChevronDown, ChevronUp,
   Rocket, Github, ExternalLink,
 } from 'lucide-react'
 
@@ -100,7 +100,6 @@ export default function AdminPage() {
   const [projectItems, setProjectItems] = useState<ProjectItem[]>([])
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [savingOrder, setSavingOrder] = useState(false)
-  const dragId = useRef<string | null>(null)
 
   // Analytics
   const [analytics, setAnalytics] = useState<Analytics | null>(null)
@@ -151,27 +150,15 @@ export default function AdminPage() {
     showToast('Order saved — live on the site!')
   }
 
-  const onDragStart = (e: React.DragEvent, id: string) => {
-    dragId.current = id
-    e.dataTransfer.effectAllowed = 'move'
-  }
-  const onDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'move'
-  }
-  const onDrop = (e: React.DragEvent, targetId: string) => {
-    e.preventDefault()
-    const sourceId = dragId.current
-    if (!sourceId || sourceId === targetId) return
+  const moveProject = (id: string, direction: 'up' | 'down') => {
     setProjectItems(items => {
       const next = [...items]
-      const from = next.findIndex(p => p.id === sourceId)
-      const to   = next.findIndex(p => p.id === targetId)
-      const [moved] = next.splice(from, 1)
-      next.splice(to, 0, moved)
+      const idx  = next.findIndex(p => p.id === id)
+      const swap = direction === 'up' ? idx - 1 : idx + 1
+      if (swap < 0 || swap >= next.length) return items
+      ;[next[idx], next[swap]] = [next[swap], next[idx]]
       return next
     })
-    dragId.current = null
   }
 
   const fetchAnalytics = useCallback(async () => {
@@ -625,7 +612,7 @@ export default function AdminPage() {
             </div>
 
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[#475569] text-xs">Drag <GripVertical size={11} className="inline" /> to reorder · toggle switch to show/hide</p>
+              <p className="text-[#475569] text-xs">Use ↑ ↓ to reorder · toggle switch to show/hide</p>
               <button onClick={saveOrder} disabled={savingOrder}
                 className="text-xs px-3 py-1.5 rounded-lg font-medium transition-all disabled:opacity-50"
                 style={{ background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', color: '#818CF8' }}>
@@ -634,15 +621,22 @@ export default function AdminPage() {
             </div>
 
             <div className="space-y-2">
-              {projectItems.map(p => (
+              {projectItems.map((p, idx) => (
                 <div key={p.id}
-                  draggable
-                  onDragStart={e => onDragStart(e, p.id)}
-                  onDragOver={onDragOver}
-                  onDrop={e => onDrop(e, p.id)}
-                  className="rounded-2xl bg-[#12121E] border p-4 flex items-center gap-3 transition-all duration-200 cursor-grab active:cursor-grabbing select-none"
+                  className="rounded-2xl bg-[#12121E] border p-4 flex items-center gap-3 transition-all duration-200"
                   style={{ borderColor: p.visible ? 'rgba(255,255,255,0.08)' : 'rgba(239,68,68,0.2)', opacity: p.visible ? 1 : 0.6 }}>
-                  <GripVertical size={16} className="text-[#334155] flex-shrink-0" />
+                  <div className="flex flex-col gap-1 flex-shrink-0">
+                    <button onClick={() => moveProject(p.id, 'up')} disabled={idx === 0}
+                      className="w-6 h-6 rounded-md flex items-center justify-center transition-all disabled:opacity-20"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                      <ChevronUp size={13} />
+                    </button>
+                    <button onClick={() => moveProject(p.id, 'down')} disabled={idx === projectItems.length - 1}
+                      className="w-6 h-6 rounded-md flex items-center justify-center transition-all disabled:opacity-20"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                      <ChevronDown size={13} />
+                    </button>
+                  </div>
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: p.color }} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5 flex-wrap">
@@ -665,7 +659,7 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
-            <p className="text-[#334155] text-xs mt-4 text-center">Visibility changes are instant · drag to reorder then hit &ldquo;Save Order&rdquo;</p>
+            <p className="text-[#334155] text-xs mt-4 text-center">Visibility changes are instant · use ↑ ↓ to reorder then hit &ldquo;Save Order&rdquo;</p>
           </div>
         )}
 
