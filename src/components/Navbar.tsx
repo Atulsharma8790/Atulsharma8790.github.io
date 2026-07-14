@@ -43,7 +43,9 @@ export function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           scrolled
-            ? 'backdrop-blur-xl border-b shadow-[0_4px_30px_rgba(0,0,0,0.15)]'
+            ? theme === 'light'
+              ? 'bg-white/90 backdrop-blur-xl border-b border-black/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.08)]'
+              : 'bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.15)]'
             : 'bg-transparent'
         )}
       >
@@ -52,7 +54,7 @@ export function Navbar() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center text-white font-bold text-sm shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-all duration-300">
               AS
             </div>
-            <span className="font-semibold text-white/90 hidden sm:block text-sm tracking-wide">
+            <span className={cn('font-semibold hidden sm:block text-sm tracking-wide', theme === 'light' ? 'text-[#0F172A]' : 'text-white/90')}>
               Atul Sharma
             </span>
           </a>
