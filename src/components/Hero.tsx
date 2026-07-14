@@ -6,12 +6,12 @@ import { Download, ArrowRight, Sparkles } from 'lucide-react'
 import { hero } from '../data/content'
 
 const roles = [
-  'QA Automation Architect',
-  'Quality Engineering Leader',
+  'Quality Engineering Architect',
+  'AI Solutions Engineer',
+  'Test Automation Leader',
   'AI-Driven Testing Innovator',
   'Enterprise Quality Strategist',
   'Engineering Mentor',
-  'Technical Architect',
 ]
 
 function useTypingAnimation(words: string[], speed = 80, pause = 2200) {
@@ -156,7 +156,7 @@ export function Hero() {
                 </div>
                 <div>
                   <h2 className="text-white font-semibold text-lg">Atul Sharma</h2>
-                  <p className="text-[#6366F1] text-sm font-medium">QA Automation Architect</p>
+                  <p className="text-[#6366F1] text-sm font-medium">Quality Engineering Architect</p>
                   <p className="text-[#7B8FA8] text-xs mt-1">Gurugram, India · Open to Remote</p>
                 </div>
                 <div className="ml-auto flex items-center gap-1.5">
@@ -169,7 +169,7 @@ export function Hero() {
               <div className="mb-6">
                 <p className="text-[#6B7F96] text-xs font-medium uppercase tracking-wider mb-3">Core Expertise</p>
                 <div className="flex flex-wrap gap-2">
-                  {['Automation Architecture', 'AI Testing', 'Quality Leadership', 'Performance Eng.', 'Mobile QA', 'DevOps Integration'].map(tag => (
+                  {['Automation Architecture', 'AI Solutions Engineering', 'Quality Leadership', 'MCP & Agentic AI', 'Performance Eng.', 'Mobile QA'].map(tag => (
                     <span key={tag} className="px-2.5 py-1 rounded-lg bg-[#1E1E2E] border border-white/[0.07] text-[#94A3B8] text-xs font-medium">
                       {tag}
                     </span>
@@ -180,7 +180,7 @@ export function Hero() {
               {/* Stats mini */}
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { val: '13+', label: 'Years' },
+                  { val: '15+', label: 'Years' },
                   { val: '50+', label: 'Mentored' },
                   { val: '5+', label: 'Enterprises' },
                 ].map(s => (
@@ -196,7 +196,7 @@ export function Hero() {
                 <div className="w-2 h-2 rounded-full bg-[#6366F1]" />
                 <div>
                   <span className="text-[#A5B4FC] text-xs font-semibold">Currently at EPAM Systems</span>
-                  <p className="text-[#7B8FA8] text-xs">Lead QA Automation Architect · Jan 2024–Present</p>
+                  <p className="text-[#7B8FA8] text-xs">Quality Architect I · March 2024–Present</p>
                 </div>
               </div>
             </div>

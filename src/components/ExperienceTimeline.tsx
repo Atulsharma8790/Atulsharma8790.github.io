@@ -24,7 +24,7 @@ export function ExperienceTimeline() {
             <span className="text-[#6366F1] text-xs font-semibold tracking-[0.2em] uppercase">Experience</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            13+ Years of Engineering Excellence
+            15+ Years of Engineering Excellence
           </h2>
           <p className="text-[#7B8FA8] text-lg max-w-2xl">
             From founding automation practices at start-ups to leading QA verticals at global enterprises.
