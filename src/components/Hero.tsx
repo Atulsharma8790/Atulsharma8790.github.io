@@ -153,13 +153,25 @@ export function Hero() {
               {/* Profile area */}
               <div className="relative flex items-start gap-5 mb-8">
                 {!photoError ? (
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0 border border-white/10">
-                    <img
-                      src="/assets/atul-sharma-photo.jpg"
-                      alt="Atul Sharma"
-                      className="w-full h-full object-cover object-top"
-                      onError={() => setPhotoError(true)}
-                    />
+                  <div className="relative group flex-shrink-0">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(99,102,241,0.4)] border border-white/10 cursor-pointer">
+                      <img
+                        src="/assets/atul-sharma-photo.jpg"
+                        alt="Atul Sharma"
+                        className="w-full h-full object-cover object-top"
+                        onError={() => setPhotoError(true)}
+                      />
+                    </div>
+                    {/* Enlarged hover preview */}
+                    <div className="absolute left-0 top-0 z-50 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 origin-top-left">
+                      <div className="w-48 h-48 rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.6)] border border-white/20">
+                        <img
+                          src="/assets/atul-sharma-photo.jpg"
+                          alt="Atul Sharma"
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center text-white text-2xl font-bold shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0">
