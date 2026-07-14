@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Download, ArrowRight, Sparkles } from 'lucide-react'
 import { hero } from '../data/content'
@@ -44,6 +44,7 @@ function useTypingAnimation(words: string[], speed = 80, pause = 2200) {
 
 export function Hero() {
   const typedRole = useTypingAnimation(roles)
+  const [photoError, setPhotoError] = useState(false)
 
   return (
     <section
@@ -151,20 +152,20 @@ export function Hero() {
 
               {/* Profile area */}
               <div className="relative flex items-start gap-5 mb-8">
-                <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0 border border-white/10">
-                  <img
-                    src="/atul-sharma-photo.jpg"
-                    alt="Atul Sharma"
-                    className="w-full h-full object-cover"
-                    onError={e => {
-                      const t = e.currentTarget
-                      t.style.display = 'none'
-                      const parent = t.parentElement!
-                      parent.classList.add('bg-gradient-to-br', 'from-[#6366F1]', 'to-[#8B5CF6]', 'flex', 'items-center', 'justify-center')
-                      parent.innerHTML = '<span class="text-white text-2xl font-bold">AS</span>'
-                    }}
-                  />
-                </div>
+                {!photoError ? (
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0 border border-white/10">
+                    <img
+                      src="/atul-sharma-photo.jpg"
+                      alt="Atul Sharma"
+                      className="w-full h-full object-cover object-top"
+                      onError={() => setPhotoError(true)}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center text-white text-2xl font-bold shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0">
+                    AS
+                  </div>
+                )}
                 <div>
                   <h2 className="text-white font-semibold text-lg">Atul Sharma</h2>
                   <p className="text-[#6366F1] text-sm font-medium">Quality Engineering Architect</p>
