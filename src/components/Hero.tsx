@@ -155,7 +155,7 @@ export function Hero() {
                 {!photoError ? (
                   <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(99,102,241,0.4)] flex-shrink-0 border border-white/10">
                     <img
-                      src="/atul-sharma-photo.jpg"
+                      src="/assets/atul-sharma-photo.jpg"
                       alt="Atul Sharma"
                       className="w-full h-full object-cover object-top"
                       onError={() => setPhotoError(true)}
