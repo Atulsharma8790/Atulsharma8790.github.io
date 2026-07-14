@@ -2,28 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { aiInnovation } from '../data/content'
+import { ExternalLink } from 'lucide-react'
 
 const iconSvg: Record<string, JSX.Element> = {
+  Cpu: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg>,
   Sparkles: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>,
-  Bot: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>,
-  Search: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
-  Shield: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>,
-  MessageSquare: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
   Workflow: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>,
-}
-
-const statusColors: Record<string, { bg: string; text: string; border: string }> = {
-  'Production': { bg: '#10B98115', text: '#10B981', border: '#10B98130' },
-  'In Development': { bg: '#6366F115', text: '#6366F1', border: '#6366F130' },
-  'Research': { bg: '#F59E0B15', text: '#F59E0B', border: '#F59E0B30' },
-  'Live': { bg: '#06B6D415', text: '#06B6D4', border: '#06B6D430' },
-  'Roadmap': { bg: '#EC489915', text: '#EC4899', border: '#EC489930' },
+  Bot: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>,
+  MessageSquare: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+  Search: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
 }
 
 export function AIInnovationSection() {
   return (
     <section id="ai-innovation" className="relative py-24 lg:py-32">
-      {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#06B6D4] opacity-[0.03] rounded-full blur-3xl" />
       </div>
@@ -53,44 +45,54 @@ export function AIInnovationSection() {
 
         {/* Initiatives grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
-          {aiInnovation.initiatives.map((item, i) => {
-            const status = statusColors[item.status] ?? statusColors['Research']
-            return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="rounded-2xl bg-[#12121E] border border-white/[0.07] p-6 hover:border-white/[0.12] transition-all duration-300 group relative overflow-hidden"
-              >
-                {/* Background glow */}
-                <div
-                  className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: item.color }}
-                />
+          {aiInnovation.initiatives.map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="rounded-2xl bg-[#12121E] border border-white/[0.07] p-6 hover:border-white/[0.12] transition-all duration-300 group relative overflow-hidden flex flex-col"
+            >
+              <div
+                className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: item.color }}
+              />
 
-                <div className="relative">
-                  <div className="flex items-start justify-between mb-4">
-                    <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: `${item.color}15`, border: `1px solid ${item.color}30`, color: item.color }}
-                    >
-                      {iconSvg[item.icon]}
-                    </div>
-                    <span
-                      className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={{ background: status.bg, color: status.text, border: `1px solid ${status.border}` }}
-                    >
-                      {item.status}
-                    </span>
+              <div className="relative flex-1 flex flex-col">
+                <div className="flex items-start justify-between mb-4">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: `${item.color}15`, border: `1px solid ${item.color}30`, color: item.color }}
+                  >
+                    {iconSvg[item.icon] ?? iconSvg['Sparkles']}
                   </div>
-                  <h3 className="text-white font-semibold text-base mb-2">{item.title}</h3>
-                  <p className="text-[#7B8FA8] text-sm leading-relaxed">{item.description}</p>
+                  <span
+                    className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                    style={{ background: `${item.color}15`, color: item.color, border: `1px solid ${item.color}30` }}
+                  >
+                    {item.status}
+                  </span>
                 </div>
-              </motion.div>
-            )
-          })}
+                <h3 className="text-white font-semibold text-base mb-2">{item.title}</h3>
+                <p className="text-[#7B8FA8] text-sm leading-relaxed flex-1">{item.description}</p>
+
+                {item.demo && (
+                  <a
+                    href={item.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
+                    style={{ color: item.color }}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <ExternalLink size={12} />
+                    View Live Demo
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Vision statement */}
